@@ -55,6 +55,15 @@ def save_images(soup, chintai_id):
 
 
 def save_texts(soup, chintai_id):
+    yachin = soup.find('div', class_='property_view_note-list')
+    text0 = ''
+    for i in yachin.find_all('span'):
+        text0 += i.text.replace('\xa0','')
+
+    path = 'datas/' + chintai_id + '/text/text0.txt'
+    with open(path, mode='w') as f:
+        f.write(text0)
+
     table = soup.find('table', class_='property_view_table')
     elements = table.find_all()
 
@@ -102,23 +111,30 @@ def save_datas(link):
     return chintai_id
 
 
-tokyo_url = 'https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&pc=50&smk=&po1=25&po2=99&shkr1=03&shkr2=03&shkr3=03&shkr4=03&rn=0580&ek=058019450&ek=058002990&ek=058024780&rn=0540&ek=054000190&rn=0550&rn=0560&ek=056019660&ek=056039760&rn=0025&ek=002537450&ek=002512030&ek=002538520&ek=002531240&ek=002529360&ra=013&ae=05801&ae=00251&ae=05601&cb=4.5&ct=6.5&co=1&md=01&md=02&md=03&md=04&md=05&md=06&ts=1&ts=2&et=9999999&mb=0&mt=9999999&cn=9999999&tc=0400301'
-chiba_url = 'https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&pc=50&smk=&po1=25&po2=99&shkr1=03&shkr2=03&shkr3=03&shkr4=03&rn=0590&ek=059031750&ek=059011400&ek=059039990&ra=012&cb=4.5&ct=6.5&co=1&md=01&md=02&md=03&md=04&md=05&md=06&ts=1&ts=2&et=9999999&mb=0&mt=9999999&cn=9999999&tc=0400301'
+tokyo_url = 'https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&pc=50&smk=&po1=25&po2=99&shkr1=03&shkr2=03&shkr3=03&shkr4=03&rn=0580&ek=058019450&ek=058002990&ek=058024780&rn=0540&ek=054000190&rn=0550&rn=0560&ek=056019660&ek=056039760&rn=0025&ek=002537450&ek=002512030&ek=002538520&ek=002531240&ek=002529360&ra=013&ae=05801&ae=00251&ae=05601&cb=4.5&ct=6.5&co=1&md=01&md=02&md=03&md=04&md=05&md=06&ts=1&ts=2&et=9999999&mb=20&mt=9999999&cn=9999999&tc=0400301'
+chiba_url = 'https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=030&bs=040&pc=50&smk=&po1=25&po2=99&shkr1=03&shkr2=03&shkr3=03&shkr4=03&rn=0590&ek=059031750&ek=059011400&ek=059039990&ra=012&cb=4.5&ct=6.5&co=1&md=01&md=02&md=03&md=04&md=05&md=06&ts=1&ts=2&et=9999999&mb=20&mt=9999999&cn=9999999&tc=0400301'
 
 link_list = ret_link_list(tokyo_url, chiba_url)
 random.shuffle(link_list)
 
+print('あり: 1')
+print('ありだけど高い: 2')
+print('なし: 3')
 for link in link_list:
-    chintai_id = save_datas(link)
+    chintai_id = link.split('chintai/')[1].split('/')[0]
+    if not os.path.exists('datas/' + chintai_id + '/img'):
+        chintai_id = save_datas(link)
 
-    print(link)
+        print(link)
 
-    print('あり: 0')
-    print('ありだけど高い: 1')
-    print('なし: 2')
-    inp = input('>>')
+        inp = 0
+        while not (int(inp) == 1 or int(inp) == 2 or int(inp) == 3):
+            inp = input('>>')
 
-    path = 'datas/' + chintai_id + '/label.txt'
-    with open(path, mode='w') as f:
-        f.write(inp)
+        path = 'datas/' + chintai_id + '/label.txt'
+        with open(path, mode='w') as f:
+            f.write(inp)
+        
+        print('=======================')
 # %%
+link

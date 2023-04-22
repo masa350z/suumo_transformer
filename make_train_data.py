@@ -58,7 +58,7 @@ def save_texts(soup, chintai_id):
     yachin = soup.find('div', class_='property_view_note-list')
     text0 = ''
     for i in yachin.find_all('span'):
-        text0 += i.text.replace('\xa0','')
+        text0 += i.text.replace('\xa0', '')
 
     path = 'datas/' + chintai_id + '/text/text0.txt'
     with open(path, mode='w') as f:
@@ -134,7 +134,6 @@ for link in link_list:
         path = 'datas/' + chintai_id + '/label.txt'
         with open(path, mode='w') as f:
             f.write(inp)
-        
+
         print('=======================')
 # %%
-link

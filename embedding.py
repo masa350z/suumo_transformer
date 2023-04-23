@@ -5,7 +5,7 @@ from glob import glob
 import numpy as np
 import openai
 
-CHATGPT_KEY = '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'
+CHATGPT_KEY = 'XXXXX'
 openai.api_key = CHATGPT_KEY
 # %%
 datas = glob('datas/*')
